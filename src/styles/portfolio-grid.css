@@ -1,0 +1,305 @@
+/* Portfolio Grid Component Styles */
+
+.pg__filters {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+  padding-bottom: var(--space-lg);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.pg__filter-row {
+  display: flex;
+  gap: var(--space-md);
+  align-items: center;
+}
+
+.pg__search {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 0.6rem 1rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  color: var(--text-tertiary);
+  transition: border-color 0.2s;
+}
+
+.pg__search:focus-within {
+  border-color: var(--text-accent);
+}
+
+.pg__search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  outline: none;
+}
+
+.pg__search-input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.pg__search-clear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  font-size: 1.1rem;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: var(--font-body);
+  transition: color 0.2s;
+}
+
+.pg__search-clear:hover {
+  color: var(--text-primary);
+}
+
+.pg__sort {
+  padding: 0.6rem 1rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%239E9891' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  padding-right: 2.25rem;
+}
+
+.pg__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.pg__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0.4rem 0.9rem;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: var(--tag-text);
+  background: var(--tag-bg);
+  border: 1px solid transparent;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.2s var(--ease-out-expo);
+  white-space: nowrap;
+}
+
+.pg__pill:hover {
+  border-color: var(--border-medium);
+}
+
+.pg__pill.active {
+  background: var(--tag-bg-active);
+  color: var(--tag-text-active);
+  font-weight: 500;
+}
+
+.pg__pill--sm {
+  padding: 0.3rem 0.7rem;
+  font-size: 0.75rem;
+}
+
+.pg__pill--clear {
+  color: var(--text-accent);
+  border: 1px dashed var(--text-accent);
+  background: transparent;
+}
+
+.pg__pill--clear:hover {
+  background: var(--text-accent);
+  color: white;
+  border-style: solid;
+}
+
+.pg__pill-icon {
+  font-size: 0.9em;
+}
+
+.pg__pills--secondary {
+  padding-top: var(--space-xs);
+}
+
+.pg__results-count {
+  font-size: 0.85rem;
+  color: var(--text-tertiary);
+  margin-bottom: var(--space-lg);
+}
+
+/* Grid */
+.pg__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-lg);
+}
+
+/* Card */
+.pg__card {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  text-decoration: none;
+  transition: border-color 0.3s, transform 0.3s var(--ease-out-expo), box-shadow 0.3s;
+  animation: fadeUp 0.5s var(--ease-out-expo) forwards;
+  opacity: 0;
+}
+
+.pg__card:hover {
+  border-color: var(--border-medium);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+.pg__card-image {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--bg-secondary);
+}
+
+.pg__card-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  background: linear-gradient(135deg, var(--bg-secondary), var(--bg-card));
+  transition: transform 0.4s var(--ease-out-expo);
+}
+
+.pg__card:hover .pg__card-placeholder {
+  transform: scale(1.05);
+}
+
+.pg__card-body {
+  padding: var(--space-lg);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.pg__card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: var(--space-sm);
+}
+
+.pg__card-tag {
+  display: inline-block;
+  padding: 1px 8px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: capitalize;
+  background: var(--tag-bg);
+  color: var(--tag-text);
+  border-radius: 100px;
+}
+
+.pg__card-tag--cat {
+  background: var(--text-accent);
+  color: white;
+}
+
+.pg__card-title {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.pg__card-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.pg__card-date {
+  font-size: 0.78rem;
+  color: var(--text-tertiary);
+  margin-top: var(--space-md);
+}
+
+/* Empty state */
+.pg__empty {
+  text-align: center;
+  padding: var(--space-3xl) var(--space-lg);
+  color: var(--text-tertiary);
+}
+
+.pg__empty p {
+  margin-bottom: var(--space-lg);
+  color: var(--text-tertiary);
+}
+
+.pg__empty button {
+  padding: 0.5rem 1.25rem;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--text-accent);
+  border: 1px solid var(--text-accent);
+  border-radius: 100px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.pg__empty button:hover {
+  background: var(--text-accent);
+  color: white;
+}
+
+@media (max-width: 640px) {
+  .pg__filter-row {
+    flex-direction: column;
+  }
+
+  .pg__sort {
+    width: 100%;
+  }
+
+  .pg__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pg__pills {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: var(--space-xs);
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .pg__pills::-webkit-scrollbar {
+    display: none;
+  }
+}

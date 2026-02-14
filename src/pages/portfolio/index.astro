@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PortfolioGrid from '../../components/portfolio/PortfolioGrid';
+import { getCollection } from 'astro:content';
+import { siteConfig } from '../../data/siteConfig';
+
+const allPosts = await getCollection('portfolio', ({ data }) => !data.draft);
+
+const posts = allPosts
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .map(post => ({
+    slug: post.slug.split('/')[0],
+    title: post.data.title,
+    description: post.data.description,
+    date: post.data.date.toISOString(),
+    tags: post.data.tags,
+    category: post.data.category,
+    thumbnail: post.data.thumbnail?.src,
+    featured: post.data.featured,
+  }));
+
+const categories = siteConfig.categories;
+---
+
+<BaseLayout title="Portfolio" description="Browse all my work — writings, films, cycling journals, and more.">
+  <section class="portfolio-page">
+    <div class="container">
+      <div class="portfolio-page__header animate-fade-up">
+        <h1>Work</h1>
+        <p class="portfolio-page__subtitle">Everything I make, all in one place.</p>
+      </div>
+      <PortfolioGrid
+        client:load
+        posts={posts}
+        categories={categories}
+      />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .portfolio-page {
+    padding-top: calc(64px + var(--space-2xl));
+    padding-bottom: var(--space-3xl);
+    min-height: 100vh;
+  }
+
+  .portfolio-page__header {
+    margin-bottom: var(--space-xl);
+  }
+
+  .portfolio-page__header h1 {
+    font-family: var(--font-display);
+    font-style: italic;
+    margin-bottom: var(--space-xs);
+  }
+
+  .portfolio-page__subtitle {
+    font-size: 1.05rem;
+    color: var(--text-tertiary);
+  }
+</style>

@@ -1,0 +1,473 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { siteConfig } from '../../data/siteConfig';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('portfolio');
+  return posts.map(post => {
+    const cleanSlug = post.slug.split('/')[0];
+    return {
+      params: { slug: cleanSlug },
+      props: { post, cleanSlug },
+    };
+  });
+}
+
+const { post, cleanSlug } = Astro.props;
+const { Content } = await post.render();
+
+const formattedDate = post.data.date.toLocaleDateString('en-US', {
+  weekday: 'long',
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric',
+});
+
+const pageUrl = `${siteConfig.url}/portfolio/${cleanSlug}`;
+const encodedUrl = encodeURIComponent(pageUrl);
+const encodedTitle = encodeURIComponent(post.data.title);
+---
+
+<BaseLayout title={post.data.title} description={post.data.description} ogImage={post.data.thumbnail?.src}>
+  <article class="post-page">
+    <div class="container">
+      <!-- Back link -->
+      <a href="/portfolio" class="post-page__back animate-fade-in">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        Back to work
+      </a>
+
+      <!-- Header -->
+      <header class="post-page__header animate-fade-up">
+        <div class="post-page__meta">
+          <span class="post-page__category">{post.data.category.replace(/-/g, ' ')}</span>
+          <span class="post-page__sep">·</span>
+          <time>{formattedDate}</time>
+        </div>
+        <h1 class="post-page__title">{post.data.title}</h1>
+        <p class="post-page__description">{post.data.description}</p>
+        <div class="post-page__tags">
+          {post.data.tags.map((tag: string) => (
+            <span class="post-page__tag">{tag}</span>
+          ))}
+        </div>
+      </header>
+
+      <!-- Content -->
+      <div class="post-page__content prose animate-fade-up delay-2">
+        <Content />
+      </div>
+
+      <!-- Share -->
+      <div class="post-page__share">
+        <span class="post-page__share-label">Share this</span>
+        <div class="post-page__share-buttons">
+          <button class="post-page__share-btn" id="share-copy" title="Copy link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+            <span class="post-page__share-text">Copy link</span>
+          </button>
+          <a class="post-page__share-btn" href={`https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`} target="_blank" rel="noopener noreferrer" title="Share on X">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4l11.733 16h4.267l-11.733-16zM4 20l6.768-6.768M15.232 10.232l4.768-6.232"/></svg>
+            <span class="post-page__share-text">X</span>
+          </a>
+          <a class="post-page__share-btn" href={`https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}`} target="_blank" rel="noopener noreferrer" title="Share on WhatsApp">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"/><path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1"/></svg>
+            <span class="post-page__share-text">WhatsApp</span>
+          </a>
+          <a class="post-page__share-btn" href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`} target="_blank" rel="noopener noreferrer" title="Share on LinkedIn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M8 11v5M8 8v.01M12 16v-5M16 16v-3a2 2 0 0 0-4 0"/></svg>
+            <span class="post-page__share-text">LinkedIn</span>
+          </a>
+          <button class="post-page__share-btn post-page__share-native" id="share-native" title="Share">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.59 13.51 6.83 3.98M15.41 6.51l-6.82 3.98"/></svg>
+            <span class="post-page__share-text">More</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Footer nav -->
+      <div class="post-page__footer">
+        <a href="/portfolio" class="post-page__footer-link">
+          ← Browse all work
+        </a>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .post-page {
+    padding-top: calc(64px + var(--space-2xl));
+    padding-bottom: var(--space-3xl);
+    min-height: 100vh;
+  }
+
+  .post-page__back {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: 0.85rem;
+    color: var(--text-tertiary);
+    margin-bottom: var(--space-xl);
+    transition: color 0.2s;
+  }
+
+  .post-page__back:hover {
+    color: var(--text-primary);
+  }
+
+  .post-page__header {
+    max-width: var(--content-width);
+    margin-bottom: var(--space-2xl);
+    padding-bottom: var(--space-xl);
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  .post-page__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: 0.85rem;
+    color: var(--text-tertiary);
+    text-transform: capitalize;
+    margin-bottom: var(--space-md);
+  }
+
+  .post-page__category {
+    color: var(--text-accent);
+    font-weight: 500;
+  }
+
+  .post-page__title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: var(--text-primary);
+    margin-bottom: var(--space-md);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  .post-page__description {
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin-bottom: var(--space-lg);
+  }
+
+  .post-page__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+  }
+
+  .post-page__tag {
+    display: inline-block;
+    padding: 3px 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    border-radius: 100px;
+  }
+
+  .post-page__content {
+    margin-bottom: var(--space-2xl);
+  }
+
+  /* Share section */
+  .post-page__share {
+    max-width: var(--content-width);
+    padding: var(--space-xl) 0;
+    border-top: 1px solid var(--border-light);
+    margin-bottom: var(--space-xl);
+  }
+
+  .post-page__share-label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-tertiary);
+    margin-bottom: var(--space-md);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .post-page__share-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+
+  .post-page__share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0.5rem 1rem;
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-light);
+    border-radius: 100px;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+    text-decoration: none;
+  }
+
+  .post-page__share-btn:hover {
+    border-color: var(--border-medium);
+    color: var(--text-primary);
+  }
+
+  .post-page__share-btn.copied {
+    background: var(--text-accent);
+    color: white;
+    border-color: var(--text-accent);
+  }
+
+  /* Hide native share on desktop — only show on mobile */
+  .post-page__share-native {
+    display: none;
+  }
+
+  @media (max-width: 640px) {
+    .post-page__share-text {
+      display: none;
+    }
+
+    .post-page__share-native {
+      display: inline-flex;
+    }
+  }
+
+  /* Gallery styles */
+  .post-page__content :global(.gallery) {
+    position: relative;
+    max-width: 100%;
+    margin: var(--space-xl) 0;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--bg-secondary);
+  }
+
+  .post-page__content :global(.gallery p) {
+    margin: 0;
+  }
+
+  .post-page__content :global(.gallery-slide) {
+    margin: 0;
+  }
+
+  .post-page__content :global(.gallery img) {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0;
+    border-radius: 0;
+  }
+
+  .post-page__content :global(.gallery-controls) {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-sm) var(--space-md);
+    background: linear-gradient(transparent, rgba(0,0,0,0.5));
+  }
+
+  .post-page__content :global(.gallery-btn) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(4px);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: background 0.2s;
+  }
+
+  .post-page__content :global(.gallery-btn:hover) {
+    background: rgba(255,255,255,0.35);
+  }
+
+  .post-page__content :global(.gallery-dots) {
+    display: flex;
+    gap: 6px;
+  }
+
+  .post-page__content :global(.gallery-dot) {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.4);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+  }
+
+  .post-page__content :global(.gallery-dot.active) {
+    background: white;
+    transform: scale(1.3);
+  }
+
+  .post-page__content :global(.gallery-counter) {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.7);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Footer */
+  .post-page__footer {
+    max-width: var(--content-width);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--border-light);
+  }
+
+  .post-page__footer-link {
+    font-size: 0.9rem;
+    color: var(--text-tertiary);
+    transition: color 0.2s;
+  }
+
+  .post-page__footer-link:hover {
+    color: var(--text-accent);
+  }
+</style>
+
+<script define:vars={{ pageUrl, pageTitle: post.data.title }}>
+  // Copy link button
+  const copyBtn = document.getElementById('share-copy');
+  copyBtn?.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(pageUrl);
+      copyBtn.classList.add('copied');
+      const textEl = copyBtn.querySelector('.post-page__share-text');
+      if (textEl) textEl.textContent = 'Copied!';
+      setTimeout(() => {
+        copyBtn.classList.remove('copied');
+        if (textEl) textEl.textContent = 'Copy link';
+      }, 2000);
+    } catch {
+      // Fallback
+      const input = document.createElement('input');
+      input.value = pageUrl;
+      document.body.appendChild(input);
+      input.select();
+      document.execCommand('copy');
+      document.body.removeChild(input);
+    }
+  });
+
+  // Native share (mobile)
+  const nativeBtn = document.getElementById('share-native');
+  if (navigator.share) {
+    nativeBtn?.addEventListener('click', () => {
+      navigator.share({ title: pageTitle, url: pageUrl });
+    });
+  }
+
+  // Gallery initialization
+  document.querySelectorAll('.gallery').forEach(gallery => {
+    const images = Array.from(gallery.querySelectorAll('img'));
+    if (images.length <= 1) {
+      // Single image, just show it normally
+      return;
+    }
+
+    // Wrap each image in its own container for show/hide
+    const slides = images.map(img => {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'gallery-slide';
+      img.parentNode.insertBefore(wrapper, img);
+      wrapper.appendChild(img);
+      return wrapper;
+    });
+
+    // Remove any empty <p> tags left behind
+    gallery.querySelectorAll('p').forEach(p => {
+      if (!p.querySelector('img') && !p.textContent.trim()) {
+        p.remove();
+      }
+    });
+
+    // Hide all but first
+    let current = 0;
+    slides.forEach((s, i) => {
+      s.style.display = i === 0 ? 'block' : 'none';
+    });
+
+    // Create controls
+    const controls = document.createElement('div');
+    controls.className = 'gallery-controls';
+
+    const prevBtn = document.createElement('button');
+    prevBtn.className = 'gallery-btn';
+    prevBtn.innerHTML = '‹';
+    prevBtn.setAttribute('aria-label', 'Previous image');
+
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'gallery-btn';
+    nextBtn.innerHTML = '›';
+    nextBtn.setAttribute('aria-label', 'Next image');
+
+    const counter = document.createElement('span');
+    counter.className = 'gallery-counter';
+    counter.textContent = `1 / ${slides.length}`;
+
+    const dots = document.createElement('div');
+    dots.className = 'gallery-dots';
+
+    slides.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.className = 'gallery-dot' + (i === 0 ? ' active' : '');
+      dot.setAttribute('aria-label', `Go to image ${i + 1}`);
+      dot.addEventListener('click', () => goTo(i));
+      dots.appendChild(dot);
+    });
+
+    controls.appendChild(prevBtn);
+    controls.appendChild(dots);
+    controls.appendChild(counter);
+    controls.appendChild(nextBtn);
+    gallery.appendChild(controls);
+
+    function goTo(idx) {
+      slides[current].style.display = 'none';
+      dots.children[current].classList.remove('active');
+      current = (idx + slides.length) % slides.length;
+      slides[current].style.display = 'block';
+      dots.children[current].classList.add('active');
+      counter.textContent = `${current + 1} / ${slides.length}`;
+    }
+
+    prevBtn.addEventListener('click', () => goTo(current - 1));
+    nextBtn.addEventListener('click', () => goTo(current + 1));
+
+    // Touch/swipe support
+    let touchStartX = 0;
+    gallery.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+
+    gallery.addEventListener('touchend', (e) => {
+      const diff = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) goTo(current + 1);
+        else goTo(current - 1);
+      }
+    }, { passive: true });
+  });
+</script>
