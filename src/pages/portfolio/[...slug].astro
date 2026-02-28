@@ -69,10 +69,6 @@ const encodedTitle = encodeURIComponent(post.data.title);
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
             <span class="post-page__share-text">Copy link</span>
           </button>
-          <a class="post-page__share-btn" href={`https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`} target="_blank" rel="noopener noreferrer" title="Share on X">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4l11.733 16h4.267l-11.733-16zM4 20l6.768-6.768M15.232 10.232l4.768-6.232"/></svg>
-            <span class="post-page__share-text">X</span>
-          </a>
           <a class="post-page__share-btn" href={`https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}`} target="_blank" rel="noopener noreferrer" title="Share on WhatsApp">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"/><path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1"/></svg>
             <span class="post-page__share-text">WhatsApp</span>
@@ -100,8 +96,8 @@ const encodedTitle = encodeURIComponent(post.data.title);
 
 <style>
   .post-page {
-    padding-top: calc(64px + var(--space-2xl));
-    padding-bottom: var(--space-3xl);
+    padding-top: calc(64px + var(--space-lg));
+    padding-bottom: var(--space-lg);
     min-height: 100vh;
   }
 
@@ -121,8 +117,8 @@ const encodedTitle = encodeURIComponent(post.data.title);
 
   .post-page__header {
     max-width: var(--content-width);
-    margin-bottom: var(--space-2xl);
-    padding-bottom: var(--space-xl);
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-md);
     border-bottom: 1px solid var(--border-light);
   }
 
@@ -175,15 +171,15 @@ const encodedTitle = encodeURIComponent(post.data.title);
   }
 
   .post-page__content {
-    margin-bottom: var(--space-2xl);
+    margin-bottom: var(--space-lg);
   }
 
   /* Share section */
   .post-page__share {
     max-width: var(--content-width);
-    padding: var(--space-xl) 0;
+    padding: var(--space-md) 0;
     border-top: 1px solid var(--border-light);
-    margin-bottom: var(--space-xl);
+    margin-bottom: var(--space-md);
   }
 
   .post-page__share-label {
@@ -332,7 +328,7 @@ const encodedTitle = encodeURIComponent(post.data.title);
   /* Footer */
   .post-page__footer {
     max-width: var(--content-width);
-    padding-top: var(--space-xl);
+    padding-top: var(--space-md);
     border-top: 1px solid var(--border-light);
   }
 

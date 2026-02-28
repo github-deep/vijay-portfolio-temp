@@ -8,6 +8,17 @@ const featuredPosts = allPosts
   .filter(p => p.data.featured)
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
   .slice(0, 3);
+
+// SVG icon map for categories (Lucide-style line icons)
+const categoryIcons: Record<string, string> = {
+  writings: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>`,
+  films: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.2 6 3 11l-.9-2.4c-.3-1.1.3-2.2 1.3-2.5l13.5-4c1.1-.3 2.2.3 2.5 1.3Z"/><path d="m6.2 5.3 3.1 3.9"/><path d="m12.4 3.4 3.1 4"/><path d="M3 11h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></svg>`,
+  cycling: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18.5" cy="17.5" r="3.5"/><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="15" cy="5" r="1"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/></svg>`,
+  'road-to-wisdom': `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36z"/></svg>`,
+  'data-science': `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>`,
+  books: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>`,
+  posters: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>`,
+};
 ---
 
 <BaseLayout>
@@ -31,8 +42,12 @@ const featuredPosts = allPosts
         </div>
       </div>
       <div class="hero__scroll-hint animate-fade-in delay-5">
+        <div class="hero__scroll-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 5v14M19 12l-7 7-7-7"/>
+          </svg>
+        </div>
         <span>scroll</span>
-        <div class="hero__scroll-line"></div>
       </div>
     </div>
   </section>
@@ -46,9 +61,9 @@ const featuredPosts = allPosts
           <a 
             href={`/portfolio?category=${cat.id}`} 
             class="category-tile"
-            style={`animation-delay: ${0.1 + i * 0.08}s`}
+            style={`animation-delay: ${0.1 + i * 0.06}s`}
           >
-            <span class="category-tile__icon">{cat.icon}</span>
+            <div class="category-tile__icon" set:html={categoryIcons[cat.id] || ''} />
             <h3 class="category-tile__label">{cat.label}</h3>
             <p class="category-tile__desc">{cat.description}</p>
             <span class="category-tile__arrow">→</span>
@@ -74,13 +89,13 @@ const featuredPosts = allPosts
                   <img src={post.data.thumbnail.src} alt={post.data.title} loading="lazy" style="width:100%;height:100%;object-fit:cover;" />
                 ) : (
                   <div class="featured-card__placeholder">
-                    <span>{post.data.category === 'films' ? '🎬' : post.data.category === 'cycling' ? '🚴' : '✍️'}</span>
+                    <div set:html={categoryIcons[post.data.category] || ''} />
                   </div>
                 )}
               </div>
               <div class="featured-card__body">
                 <div class="featured-card__tags">
-                  <span class="tag">{post.data.category.replace(/-/g, ' ')}</span>
+                  <span class="tag tag--accent">{post.data.category.replace(/-/g, ' ')}</span>
                   {post.data.tags.slice(0, 2).map((tag: string) => (
                     <span class="tag">{tag}</span>
                   ))}
@@ -103,8 +118,9 @@ const featuredPosts = allPosts
   /* ---- Hero ---- */
   .hero {
     min-height: 100vh;
+    min-height: 100dvh;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     position: relative;
     padding-top: 64px;
   }
@@ -112,8 +128,10 @@ const featuredPosts = allPosts
   .hero__inner {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
+    padding-top: 18vh;
     min-height: calc(100vh - 64px);
+    min-height: calc(100dvh - 64px);
     position: relative;
   }
 
@@ -123,9 +141,10 @@ const featuredPosts = allPosts
 
   .hero__tagline {
     font-family: var(--font-display);
+    font-weight: 700;
     font-style: italic;
     color: var(--text-primary);
-    margin-bottom: var(--space-lg);
+    margin-bottom: var(--space-md);
     letter-spacing: -0.02em;
   }
 
@@ -151,10 +170,10 @@ const featuredPosts = allPosts
   .btn-primary {
     display: inline-flex;
     align-items: center;
-    padding: 0.75rem 1.75rem;
+    padding: 0.9rem 2.2rem;
     background: var(--text-primary);
     color: var(--bg-primary);
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: 500;
     border-radius: 100px;
     transition: transform 0.2s var(--ease-out-expo), opacity 0.2s;
@@ -169,8 +188,8 @@ const featuredPosts = allPosts
   .btn-ghost {
     display: inline-flex;
     align-items: center;
-    padding: 0.75rem 1.75rem;
-    font-size: 0.9rem;
+    padding: 0.9rem 2.2rem;
+    font-size: 1rem;
     font-weight: 500;
     color: var(--text-secondary);
     border: 1px solid var(--border-medium);
@@ -184,6 +203,7 @@ const featuredPosts = allPosts
     border-color: var(--text-primary);
   }
 
+  /* Scroll indicator — visible on all screens */
   .hero__scroll-hint {
     position: absolute;
     bottom: var(--space-xl);
@@ -192,47 +212,48 @@ const featuredPosts = allPosts
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--space-sm);
+    gap: 6px;
     color: var(--text-tertiary);
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
+    animation: fadeIn 0.5s var(--ease-out-expo) forwards;
+    opacity: 0;
+    animation-delay: 0.6s;
   }
 
-  .hero__scroll-line {
-    width: 1px;
-    height: 40px;
-    background: linear-gradient(to bottom, var(--text-tertiary), transparent);
-    animation: scrollPulse 2s ease-in-out infinite;
+  .hero__scroll-icon {
+    animation: scrollBounce 2s ease-in-out infinite;
   }
 
-  @keyframes scrollPulse {
-    0%, 100% { opacity: 0.3; transform: scaleY(1); }
-    50% { opacity: 1; transform: scaleY(1.2); }
+  @keyframes scrollBounce {
+    0%, 100% { transform: translateY(0); opacity: 0.5; }
+    50% { transform: translateY(6px); opacity: 1; }
   }
 
   /* ---- Section Title ---- */
   .section-title {
     font-family: var(--font-display);
+    font-weight: 700;
     font-size: clamp(1.5rem, 3vw, 2rem);
     color: var(--text-primary);
-    margin-bottom: var(--space-xl);
+    margin-bottom: var(--space-lg);
   }
 
   /* ---- Categories ---- */
   .categories {
-    padding: var(--space-3xl) 0;
+    padding: var(--space-xl) 0 var(--space-md);
   }
 
   .categories__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: var(--space-md);
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
   }
 
   .category-tile {
     position: relative;
-    padding: var(--space-xl);
+    padding: var(--space-lg);
     background: var(--bg-card);
     border: 1px solid var(--border-light);
     border-radius: var(--radius-md);
@@ -249,22 +270,33 @@ const featuredPosts = allPosts
   }
 
   .category-tile__icon {
-    font-size: 1.5rem;
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-sm);
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
     margin-bottom: var(--space-md);
+  }
+
+  .category-tile:hover .category-tile__icon {
+    color: var(--text-accent);
   }
 
   .category-tile__label {
     font-family: var(--font-display);
-    font-size: 1.2rem;
+    font-weight: 600;
+    font-size: 1.1rem;
     color: var(--text-primary);
-    margin-bottom: var(--space-xs);
+    margin-bottom: 2px;
   }
 
   .category-tile__desc {
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     color: var(--text-tertiary);
-    line-height: 1.5;
+    line-height: 1.45;
   }
 
   .category-tile__arrow {
@@ -283,14 +315,14 @@ const featuredPosts = allPosts
 
   /* ---- Featured ---- */
   .featured {
-    padding: var(--space-2xl) 0 var(--space-3xl);
+    padding: var(--space-md) 0 var(--space-lg);
   }
 
   .featured__header {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    margin-bottom: var(--space-xl);
+    margin-bottom: var(--space-lg);
   }
 
   .featured__header .section-title {
@@ -309,8 +341,8 @@ const featuredPosts = allPosts
 
   .featured__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: var(--space-lg);
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-md);
   }
 
   .featured-card {
@@ -343,12 +375,12 @@ const featuredPosts = allPosts
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2rem;
+    color: var(--text-tertiary);
     background: linear-gradient(135deg, var(--bg-secondary), var(--bg-card));
   }
 
   .featured-card__body {
-    padding: var(--space-lg);
+    padding: var(--space-md) var(--space-lg);
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -358,6 +390,7 @@ const featuredPosts = allPosts
     display: flex;
     gap: var(--space-xs);
     margin-bottom: var(--space-sm);
+    flex-wrap: wrap;
   }
 
   .tag {
@@ -372,15 +405,21 @@ const featuredPosts = allPosts
     border-radius: 100px;
   }
 
+  .tag--accent {
+    background: var(--text-accent);
+    color: white;
+  }
+
   .featured-card__title {
     font-family: var(--font-display);
-    font-size: 1.25rem;
+    font-weight: 600;
+    font-size: 1.15rem;
     color: var(--text-primary);
-    margin-bottom: var(--space-xs);
+    margin-bottom: 2px;
   }
 
   .featured-card__desc {
-    font-size: 0.875rem;
+    font-size: 0.85rem;
     color: var(--text-secondary);
     line-height: 1.5;
     flex: 1;
@@ -391,22 +430,50 @@ const featuredPosts = allPosts
   }
 
   .featured-card__date {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     color: var(--text-tertiary);
-    margin-top: var(--space-md);
+    margin-top: var(--space-sm);
   }
 
   @media (max-width: 640px) {
+    .hero__inner {
+      padding-top: 15vh;
+    }
+
     .categories__grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .category-tile {
+      padding: var(--space-md);
+    }
+
+    .category-tile__icon {
+      width: 40px;
+      height: 40px;
+      margin-bottom: var(--space-sm);
+    }
+
+    .category-tile__icon :global(svg) {
+      width: 22px;
+      height: 22px;
+    }
+
+    .category-tile__label {
+      font-size: 0.95rem;
+    }
+
+    .category-tile__desc {
+      font-size: 0.75rem;
+    }
+
+    .category-tile__arrow {
+      display: none;
     }
 
     .featured__grid {
       grid-template-columns: 1fr;
-    }
-
-    .hero__scroll-hint {
-      display: none;
     }
   }
 </style>

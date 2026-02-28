@@ -2,7 +2,7 @@
 title: "D123 – Fallen Leaves"
 description: "Review of Aki Kaurismaki's Fallen Leaves."
 date: 2024-06-11
-tags: ["review"]
+tags: ["review", "analysis"]
 category: "films"
 thumbnail: "./thumbnail.png"
 featured: true
@@ -33,15 +33,6 @@ A few frames from the film here (slide).
 ![Frame 8](./frame-12.png)
 ![Frame 9](./frame-13.png)
 ![Frame 10](./frame-14.png)
-![Frame 11](./frame-15.png)
-![Frame 12](./frame-16.png)
-![Frame 13](./frame-17.png)
-![Frame 14](./frame-18.png)
-![Frame 15](./frame-19.png)
-![Frame 16](./frame-20.png)
-![Frame 17](./frame-21.png)
-![Frame 18](./frame-22.png)
-![Frame 19](./frame-23.png)
 :::
 
 ### 3. Set design

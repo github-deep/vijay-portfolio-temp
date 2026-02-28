@@ -2,7 +2,7 @@
 title: "D142 – So Much For Certainty"
 description: "A chance encounter with an old acquaintance reveals the fragility of certainty."
 date: 2025-12-17
-tags: ["experience", "random"]
+tags: ["experience", "life"]
 category: "writings"
 thumbnail: "./thumbnail.png"
 featured: true

@@ -9,7 +9,6 @@ export const siteConfig = {
     instagram: "https://instagram.com/vijaypratap",
     youtube: "https://youtube.com/@vijaypratap",
     linkedin: "https://linkedin.com/in/vijaypratap",
-    twitter: "https://twitter.com/vijaypratap",
   },
 
   about: {
@@ -24,11 +23,13 @@ export const siteConfig = {
   },
 
   categories: [
-    { id: "writings", label: "Writings", icon: "✍️", description: "Screenplays, stories, and everything in between" },
-    { id: "films", label: "Films", icon: "🎬", description: "Documentaries, shorts, and visual experiments" },
-    { id: "cycling", label: "Cycling", icon: "🚴", description: "Two wheels, open roads, and bad decisions" },
-    { id: "road-to-wisdom", label: "Road to Wisdom", icon: "🧭", description: "Essays, reflections, and things I'm figuring out" },
-    { id: "data-science", label: "Data Science", icon: "📊", description: "The life I left behind (mostly)" },
+    { id: "writings", label: "Writings", description: "Screenplays, stories, and everything in between" },
+    { id: "films", label: "Films", description: "Documentaries, shorts, and visual experiments" },
+    { id: "cycling", label: "Cycling", description: "Two wheels, open roads, and bad decisions" },
+    { id: "road-to-wisdom", label: "Road to Wisdom", description: "Essays, reflections, and things I'm figuring out" },
+    { id: "data-science", label: "Data Science", description: "The life I left behind (mostly)" },
+    { id: "books", label: "Books", description: "Reviews, notes, and books that changed me" },
+    { id: "posters", label: "Posters", description: "Visual experiments and poster designs" },
   ],
 } as const;
 

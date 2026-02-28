@@ -8,7 +8,7 @@ const portfolio = defineCollection({
       description: z.string(),
       date: z.coerce.date(),
       tags: z.array(z.string()),
-      category: z.enum(['writings', 'films', 'cycling', 'road-to-wisdom', 'data-science']),
+      category: z.enum(['writings', 'films', 'cycling', 'road-to-wisdom', 'data-science', 'books', 'posters']),
       thumbnail: image().optional(),
       featured: z.boolean().default(false),
       draft: z.boolean().default(false),

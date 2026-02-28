@@ -57,20 +57,6 @@ import { siteConfig } from '../data/siteConfig';
             </a>
           )}
 
-          {siteConfig.social.twitter && (
-            <a href={siteConfig.social.twitter} target="_blank" rel="noopener noreferrer" class="contact-page__card">
-              <div class="contact-page__card-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <path d="M4 4l11.733 16h4.267l-11.733 -16zM4 20l6.768 -6.768M15.232 10.232l4.768 -6.232"/>
-                </svg>
-              </div>
-              <div>
-                <h3 class="contact-page__card-label">Twitter / X</h3>
-                <span class="contact-page__card-value">@vijaypratap</span>
-              </div>
-            </a>
-          )}
-
           {siteConfig.social.linkedin && (
             <a href={siteConfig.social.linkedin} target="_blank" rel="noopener noreferrer" class="contact-page__card">
               <div class="contact-page__card-icon">
@@ -93,8 +79,8 @@ import { siteConfig } from '../data/siteConfig';
 
 <style>
   .contact-page {
-    padding-top: calc(64px + var(--space-3xl));
-    padding-bottom: var(--space-3xl);
+    padding-top: calc(64px + var(--space-lg));
+    padding-bottom: var(--space-lg);
     min-height: 100vh;
     display: flex;
     align-items: flex-start;
@@ -116,7 +102,7 @@ import { siteConfig } from '../data/siteConfig';
   .contact-page__subtitle {
     font-size: clamp(1rem, 2vw, 1.1rem);
     color: var(--text-secondary);
-    margin-bottom: var(--space-2xl);
+    margin-bottom: var(--space-lg);
     max-width: 480px;
     line-height: 1.7;
   }

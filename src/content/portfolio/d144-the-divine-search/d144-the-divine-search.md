@@ -2,9 +2,8 @@
 title: "D144 – The Divine Search"
 description: "Three Gods and a question about existence."
 date: 2026-01-15
-tags: ["thoughts"]
+tags: ["thoughts", "god"]
 category: "writings"
-type: "writing"
 thumbnail: "./thumbnail.jpg"
 featured: false
 ---

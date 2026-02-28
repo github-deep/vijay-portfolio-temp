@@ -2,7 +2,7 @@
 title: "D141 – My First IFFI"
 description: "My experience at the 56th International Film Festival of India in Goa."
 date: 2025-12-13
-tags: ["experience"]
+tags: ["experience", "film-festival"]
 category: "films"
 thumbnail: "./thumbnail.jpg"
 featured: true

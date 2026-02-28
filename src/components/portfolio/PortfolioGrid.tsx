@@ -14,7 +14,6 @@ interface Post {
 interface CategoryDef {
   id: string;
   label: string;
-  icon: string;
   description: string;
 }
 
@@ -22,6 +21,8 @@ interface Props {
   posts: Post[];
   categories: readonly CategoryDef[];
 }
+
+const POSTS_PER_PAGE = 12;
 
 const MONTHS = [
   'january', 'february', 'march', 'april', 'may', 'june',
@@ -55,10 +56,11 @@ function matchesDateQuery(dateStr: string, query: string): boolean {
 
 export default function PortfolioGrid({ posts, categories }: Props) {
   const [activeCategory, setActiveCategory] = useState<string>('all');
-  const [activeTags, setActiveTags] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<'newest' | 'oldest'>('newest');
+  const [currentPage, setCurrentPage] = useState(1);
 
+  // Read initial category from URL params
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const cat = params.get('category');
@@ -67,17 +69,10 @@ export default function PortfolioGrid({ posts, categories }: Props) {
     }
   }, []);
 
-  const allTags = useMemo(() => {
-    const tagSet = new Set<string>();
-    posts.forEach(p => p.tags.forEach(t => tagSet.add(t)));
-    return Array.from(tagSet).sort();
-  }, [posts]);
-
-  const toggleTag = (tag: string) => {
-    setActiveTags(prev =>
-      prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]
-    );
-  };
+  // Reset to page 1 when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeCategory, searchQuery, sortBy]);
 
   const filteredPosts = useMemo(() => {
     let result = [...posts];
@@ -85,11 +80,7 @@ export default function PortfolioGrid({ posts, categories }: Props) {
     if (activeCategory !== 'all') {
       result = result.filter(p => p.category === activeCategory);
     }
-    if (activeTags.length > 0) {
-      result = result.filter(p =>
-        activeTags.some(tag => p.tags.includes(tag))
-      );
-    }
+
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase().trim();
       result = result.filter(p =>
@@ -107,26 +98,49 @@ export default function PortfolioGrid({ posts, categories }: Props) {
     });
 
     return result;
-  }, [posts, activeCategory, activeTags, searchQuery, sortBy]);
+  }, [posts, activeCategory, searchQuery, sortBy]);
+
+  const totalPages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE);
+  const paginatedPosts = filteredPosts.slice(
+    (currentPage - 1) * POSTS_PER_PAGE,
+    currentPage * POSTS_PER_PAGE
+  );
 
   const clearFilters = () => {
     setActiveCategory('all');
-    setActiveTags([]);
     setSearchQuery('');
+    setCurrentPage(1);
+  };
+
+  // Generate page numbers to display
+  const getPageNumbers = (): (number | '...')[] => {
+    if (totalPages <= 5) {
+      return Array.from({ length: totalPages }, (_, i) => i + 1);
+    }
+    const pages: (number | '...')[] = [1];
+    if (currentPage > 3) pages.push('...');
+    for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
+      pages.push(i);
+    }
+    if (currentPage < totalPages - 2) pages.push('...');
+    pages.push(totalPages);
+    return pages;
   };
 
   return (
     <div className="pg">
+      {/* Filter Bar */}
       <div className="pg__filters">
+        {/* Search + Sort row */}
         <div className="pg__filter-row">
           <div className="pg__search">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <circle cx="11" cy="11" r="8" />
               <path d="m21 21-4.35-4.35" />
             </svg>
             <input
               type="text"
-              placeholder="Search title, tags, or date (e.g. june 2024)..."
+              placeholder="Search title, tags, date..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pg__search-input"
@@ -141,16 +155,19 @@ export default function PortfolioGrid({ posts, categories }: Props) {
               </button>
             )}
           </div>
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as 'newest' | 'oldest')}
-            className="pg__sort"
+          <button
+            className="pg__sort-btn"
+            onClick={() => setSortBy(prev => prev === 'newest' ? 'oldest' : 'newest')}
+            title={sortBy === 'newest' ? 'Showing newest first' : 'Showing oldest first'}
           >
-            <option value="newest">Newest first</option>
-            <option value="oldest">Oldest first</option>
-          </select>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: sortBy === 'oldest' ? 'scaleY(-1)' : 'none' }}>
+              <path d="M3 8l4-4 4 4"/><path d="M7 4v16"/><path d="M11 12h4"/><path d="M11 16h7"/><path d="M11 20h10"/>
+            </svg>
+            <span className="pg__sort-label">{sortBy === 'newest' ? 'Newest' : 'Oldest'}</span>
+          </button>
         </div>
 
+        {/* Category pills */}
         <div className="pg__pills">
           <button
             className={`pg__pill ${activeCategory === 'all' ? 'active' : ''}`}
@@ -164,79 +181,97 @@ export default function PortfolioGrid({ posts, categories }: Props) {
               className={`pg__pill ${activeCategory === cat.id ? 'active' : ''}`}
               onClick={() => setActiveCategory(cat.id)}
             >
-              <span className="pg__pill-icon">{cat.icon}</span>
               {cat.label}
             </button>
           ))}
         </div>
-
-        <div className="pg__pills pg__pills--secondary">
-          {allTags.map(tag => (
-            <button
-              key={tag}
-              className={`pg__pill pg__pill--sm ${activeTags.includes(tag) ? 'active' : ''}`}
-              onClick={() => toggleTag(tag)}
-            >
-              {tag}
-            </button>
-          ))}
-          {activeTags.length > 0 && (
-            <button
-              className="pg__pill pg__pill--sm pg__pill--clear"
-              onClick={() => setActiveTags([])}
-            >
-              Clear tags ×
-            </button>
-          )}
-        </div>
       </div>
 
+      {/* Results count */}
       <div className="pg__results-count">
         {filteredPosts.length} {filteredPosts.length === 1 ? 'piece' : 'pieces'}
         {activeCategory !== 'all' && (
           <span> in {categories.find(c => c.id === activeCategory)?.label}</span>
         )}
-        {activeTags.length > 0 && (
-          <span> tagged {activeTags.join(', ')}</span>
+        {totalPages > 1 && (
+          <span> · page {currentPage} of {totalPages}</span>
         )}
       </div>
 
-      {filteredPosts.length > 0 ? (
-        <div className="pg__grid">
-          {filteredPosts.map((post, i) => (
-            <a
-              key={post.slug}
-              href={`/portfolio/${post.slug}`}
-              className="pg__card"
-              style={{ animationDelay: `${Math.min(i * 0.05, 0.5)}s` }}
-            >
-              <div className="pg__card-image">
-                {post.thumbnail ? (
-                  <img src={post.thumbnail} alt={post.title} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                ) : (
-                  <div className="pg__card-placeholder">
-                    <span>{post.category === 'films' ? '🎬' : post.category === 'cycling' ? '🚴' : '✍️'}</span>
+      {/* Grid */}
+      {paginatedPosts.length > 0 ? (
+        <>
+          <div className="pg__grid">
+            {paginatedPosts.map((post, i) => (
+              <a
+                key={post.slug}
+                href={`/portfolio/${post.slug}`}
+                className="pg__card"
+                style={{ animationDelay: `${Math.min(i * 0.04, 0.4)}s` }}
+              >
+                <div className="pg__card-image">
+                  {post.thumbnail ? (
+                    <img src={post.thumbnail} alt={post.title} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  ) : (
+                    <div className="pg__card-placeholder">
+                      <span>{post.category === 'films' ? '🎬' : post.category === 'cycling' ? '🚴' : '✍️'}</span>
+                    </div>
+                  )}
+                </div>
+                <div className="pg__card-body">
+                  <div className="pg__card-tags">
+                    <span className="pg__card-tag pg__card-tag--cat">{post.category.replace(/-/g, ' ')}</span>
+                    {post.tags.slice(0, 2).map(tag => (
+                      <span key={tag} className="pg__card-tag">{tag}</span>
+                    ))}
                   </div>
+                  <h3 className="pg__card-title">{post.title}</h3>
+                  <p className="pg__card-desc">{post.description}</p>
+                  <time className="pg__card-date">
+                    {new Date(post.date).toLocaleDateString('en-US', {
+                      month: 'short', day: 'numeric', year: 'numeric'
+                    })}
+                  </time>
+                </div>
+              </a>
+            ))}
+          </div>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="pg__pagination">
+              <button
+                className="pg__page-btn pg__page-prev"
+                disabled={currentPage === 1}
+                onClick={() => { setCurrentPage(p => p - 1); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+              >
+                ‹ Prev
+              </button>
+              <div className="pg__page-numbers">
+                {getPageNumbers().map((page, i) =>
+                  page === '...' ? (
+                    <span key={`dots-${i}`} className="pg__page-dots">…</span>
+                  ) : (
+                    <button
+                      key={page}
+                      className={`pg__page-btn pg__page-num ${currentPage === page ? 'active' : ''}`}
+                      onClick={() => { setCurrentPage(page); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                    >
+                      {page}
+                    </button>
+                  )
                 )}
               </div>
-              <div className="pg__card-body">
-                <div className="pg__card-tags">
-                  <span className="pg__card-tag pg__card-tag--cat">{post.category.replace(/-/g, ' ')}</span>
-                  {post.tags.slice(0, 2).map(tag => (
-                    <span key={tag} className="pg__card-tag">{tag}</span>
-                  ))}
-                </div>
-                <h3 className="pg__card-title">{post.title}</h3>
-                <p className="pg__card-desc">{post.description}</p>
-                <time className="pg__card-date">
-                  {new Date(post.date).toLocaleDateString('en-US', {
-                    month: 'short', day: 'numeric', year: 'numeric'
-                  })}
-                </time>
-              </div>
-            </a>
-          ))}
-        </div>
+              <button
+                className="pg__page-btn pg__page-next"
+                disabled={currentPage === totalPages}
+                onClick={() => { setCurrentPage(p => p + 1); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+              >
+                Next ›
+              </button>
+            </div>
+          )}
+        </>
       ) : (
         <div className="pg__empty">
           <p>No pieces match your filters.</p>
