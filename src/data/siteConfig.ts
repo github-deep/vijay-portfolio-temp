@@ -1,6 +1,6 @@
 export const siteConfig = {
   name: "Vijay Pratap",
-  tagline: "I love writing and writing loves me",
+  tagline: "I love writing, and Writing loves me!",
   description: "Filmmaker, writer, cyclist, and recovering data scientist. Exploring stories through every medium I can find.",
   url: "https://vijaypratap.com",
 
