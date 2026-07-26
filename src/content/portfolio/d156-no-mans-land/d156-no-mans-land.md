@@ -1,6 +1,6 @@
 ---
 title: "D156 – No Man's Land"
-description: ""
+description: "A short reflection on war, tension, and the thin line between reality and violence."
 date: 2026-07-22
 tags: ["thoughts","writing"]
 category: "writings"
@@ -27,3 +27,5 @@ As the time approaches, both sides have their eyes turn red. In moments from now
 The loud honk brings me back to reality.
 
 Gotta fight, bye!
+
+![Image](./image-1.jpeg)
