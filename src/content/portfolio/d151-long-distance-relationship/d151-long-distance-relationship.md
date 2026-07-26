@@ -36,6 +36,8 @@ How does 61000 kilometers per hour feel? Goosebumps? Are there cops on route che
 
 I'm mesmerised by you, Voyager 1.
 
+![Image](./image-1.jpg)
+
 Also, congratulations! You are now the FARTHEST HUMAN-MADE OBJECT FLOATING IN INTERSTELLAR.
 
 You are 1 light-day from earth. That means if I travel at the speed of light, I will reach you in one day. If you see me from where you are, you are seeing yesterday's version of me. I ain't complaining, for I look younger! To put it in plain numbers, you are 26 billion kilometers away. And I didn't go to fix my cycle today as the repair shop is 2 kms away.
@@ -43,6 +45,8 @@ You are 1 light-day from earth. That means if I travel at the speed of light, I 
 When you birthed in 1977, you were not supposed to last this long. And yet here you are, still sending signals like a first love that refuses to fade.
 
 And how can you eat so little and still thrive? You eat just 230 watts, which is less than how much my toilet room bulb eats when I shit!
+
+![Image](./image-2.jpg)
 
 *Earth from 6 billion kilometers away shot by Voyager 1. Now it is 25 billion kms away. Wonder how do I look from there?*
 
