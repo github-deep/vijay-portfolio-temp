@@ -4,7 +4,7 @@ description: "A rainy bicycle ride, wandering thoughts, and creative impulses."
 date: 2026-07-20
 tags: ["thoughts", "cycling", "writing"]
 category: "writings"
-thumbnail: "./thumbnail.jpg"
+thumbnail: "./thumbnail.png"
 featured: false
 ---
 
