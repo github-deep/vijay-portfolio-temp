@@ -12,7 +12,7 @@ I was a peacock today.
 
 They say a peacock dances when it rains. The moment it started raining today, something took over me. I rushed back to my room, changed my clothes, and took my Avatar (my bicycle) for a ride. It was involuntary. I was a peacock today.
 
-![Image](./image-1.jpg)
+![Image](./thumbnail.png)
 
 Blissful.
 
@@ -20,7 +20,7 @@ I can cycle anywhere. Oh wait, I can cycle to her. In fact I can cycle till this
 
 I'll cycle to Sunanda Sharma's office. She has possessed me this morning since I watched her in Karan Aujla's 'Boyfriend' song. In that colourful Punjabi attire, in that lively choreography, she was an embodiment of grace. I was zapped. All the while cycling I was thinking about her electric energy in the video. Should I write to the choreographer for composing such peppy steps?
 
-![Image](./image-2.jpg)
+![Image](./image-1.png)
 
 I should work with Sunanda Sharma. But in a more gritty, anti-heroine, painful role. If she can dance away to a heart, then I'm sure she can also hurt it. The range is interesting to explore.
 
@@ -30,7 +30,7 @@ Oh who is that woman crossing the road? What face is that... mysterious. I shoul
 
 That Jockey billboard, I don't agree with it. First it said, it's just a piece of cloth. Now it says cloth that disappears. Brand positioning inconsistency.
 
-![Image](./image-3.jpg)
+![Image](./image-2.JPG)
 
 Sunanda Sharma's peppy dance on Aujla's song in rain... Bring it on! Her lively dance flashes through with beats pushing me to pedal stronger.
 
