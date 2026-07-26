@@ -4,7 +4,7 @@ description: ""
 date: 2026-07-22
 tags: ["thoughts","writing"]
 category: "writings"
-thumbnail: "./thumbnail.jpg"
+thumbnail: "./thumbnail.jpeg"
 featured: false
 ---
 
