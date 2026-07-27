@@ -92,9 +92,12 @@ Shankar is overcome by an intense emotional rush. He weeps.
 
 Regaining himself, he calls Varun. *'The number you are dialing is switched off, please try again later'.* Will he be alive later? Shankar curses himself. He dials again, same response. He immediately starts the bike and rushes – navigating the traffic, waiting for the elevator, running through stairs – fearing the worst. Finally reaching the house, he crashes open the door.
 
+![Image](./thumbnail.png)
+
 **THE END**
 
 ***
+
 
 > ALTERNATIVE ENDING B
 
