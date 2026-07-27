@@ -90,4 +90,4 @@ The silence is broken when, in the background on-screen, Rakesh Bedi (Jameel Jam
 
 *‘Baccha hai tu mera’*.
 
-![Image](./image-1.png)
+![Image](./thumbnail.png)

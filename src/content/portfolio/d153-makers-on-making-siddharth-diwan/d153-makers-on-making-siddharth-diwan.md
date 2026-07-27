@@ -12,7 +12,7 @@ By virtue of being a student at the film school, often filmmakers visit to share
 
 Today Siddharth Diwan was on campus, the acclaimed cinematographer and an alumnus. He won a National Award in 2021 and has plenty of amazing films to his credit – Qala, Trapped, Bulbbul, Bhavesh Joshi, Titli, Queen, etc.
 
-![Image](./image-1.jpg)
+![Image](./thumbnail.jpg)
 
 So, here's what I gathered from his class today:
 

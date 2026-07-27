@@ -36,7 +36,7 @@ How does 61000 kilometers per hour feel? Goosebumps? Are there cops on route che
 
 I'm mesmerised by you, Voyager 1.
 
-![Image](./image-1.jpg)
+![Image](./thumbnail.jpg)
 
 Also, congratulations! You are now the FARTHEST HUMAN-MADE OBJECT FLOATING IN INTERSTELLAR.
 

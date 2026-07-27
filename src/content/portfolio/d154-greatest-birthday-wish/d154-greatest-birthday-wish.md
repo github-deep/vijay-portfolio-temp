@@ -10,6 +10,6 @@ featured: false
 
 Having circled the Sun 39 times, here's the greatest birthday wish I've received.
 
-![Image](./image-1.JPG)
+![Image](./thumbnail.JPG)
 
 Thanks, life!

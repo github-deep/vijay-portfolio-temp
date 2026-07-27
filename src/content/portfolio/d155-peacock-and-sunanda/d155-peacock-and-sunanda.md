@@ -12,7 +12,7 @@ I was a peacock today.
 
 They say a peacock dances when it rains. The moment it started raining today, something took over me. I rushed back to my room, changed my clothes, and took my Avatar (my bicycle) for a ride. It was involuntary. I was a peacock today.
 
-![Image](./image-3.png)
+![Image](./thumbnail.png)
 
 Blissful.
 
