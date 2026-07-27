@@ -25,20 +25,25 @@ const categoryIcons: Record<string, string> = {
   <!-- Hero Section -->
   <section class="hero">
     <div class="hero__inner container">
-      <div class="hero__content">
-        <h1 class="hero__tagline animate-fade-up">
-          {siteConfig.tagline.split(' ').map((word, i) => (
-            <span class="hero__word" style={`animation-delay: ${i * 0.06}s`}>
-              {word}
-            </span>
-          ))}
-        </h1>
-        <p class="hero__subtitle animate-fade-up delay-3">
-          {siteConfig.description}
-        </p>
-        <div class="hero__cta animate-fade-up delay-4">
-          <a href="/portfolio" class="btn-primary">View my work</a>
-          <a href="/about" class="btn-ghost">About me</a>
+      <div class="hero__row">
+        <div class="hero__content">
+          <h1 class="hero__tagline animate-fade-up">
+            {siteConfig.tagline.split(' ').map((word, i) => (
+              <span class="hero__word" style={`animation-delay: ${i * 0.06}s`}>
+                {word}
+              </span>
+            ))}
+          </h1>
+          <p class="hero__subtitle animate-fade-up delay-3">
+            {siteConfig.description}
+          </p>
+          <div class="hero__cta animate-fade-up delay-4">
+            <a href="/portfolio" class="btn-primary">View my work</a>
+            <a href="/about" class="btn-ghost">About me</a>
+          </div>
+        </div>
+        <div class="hero__image animate-fade-in delay-3">
+          <img src="/images/vijay-portrait.jpg" alt="Vijay Pratap" />
         </div>
       </div>
       <div class="hero__scroll-hint animate-fade-in delay-5">
@@ -135,8 +140,31 @@ const categoryIcons: Record<string, string> = {
     position: relative;
   }
 
+  .hero__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-xl);
+  }
+
   .hero__content {
     max-width: 720px;
+    flex: 1;
+  }
+
+  .hero__image {
+    flex-shrink: 0;
+    width: min(320px, 28vw);
+    aspect-ratio: 3 / 4;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .hero__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
   .hero__tagline {
@@ -433,6 +461,12 @@ const categoryIcons: Record<string, string> = {
     font-size: 0.78rem;
     color: var(--text-tertiary);
     margin-top: var(--space-sm);
+  }
+
+  @media (max-width: 900px) {
+    .hero__image {
+      display: none;
+    }
   }
 
   @media (max-width: 640px) {
