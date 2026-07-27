@@ -96,8 +96,6 @@ Regaining himself, he calls Varun. *'The number you are dialing is switched off,
 
 ***
 
-![Image](./image-4.png)
-
 > ALTERNATIVE ENDING B
 
 Varun is standing on the stool. He looks at his daughter and wife's photo one last time. He holds the noose, puts it around his neck. At the exact moment, Shankar bangs through the door. Seeing Varun alive, he falls on his own knees, out of breath. A moment of silence between them. Eerie silence. Regaining breath, he looks at Varun and asks whether Varun can teach music to his daughter Anjali.
