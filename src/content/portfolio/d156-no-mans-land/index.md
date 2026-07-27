@@ -28,4 +28,4 @@ The loud honk brings me back to reality.
 
 Gotta fight, bye!
 
-![Image](./image-1.jpeg)
+![Image](./thumbnail.jpeg)
